@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F16823B5-FF5C-4900-8D14-93A05DFDD392}"
+	ProjectSection(SolutionItems) = preProject
+		New-xSharePointAdministration.ps1 = New-xSharePointAdministration.ps1
+		xSharePointAdministration.psd1 = xSharePointAdministration.psd1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSCResources", "DSCResources", "{F508EB3A-B569-4203-BF7B-005C4BE8FE8E}"
+	ProjectSection(SolutionItems) = preProject
+		DSCResources\ALIS_xFarmSolution.psm1 = DSCResources\ALIS_xFarmSolution.psm1
+		DSCResources\ALIS_xFeature.psm1 = DSCResources\ALIS_xFeature.psm1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5AC964C5-134A-423B-B8F8-9BFF12632A5F}"
+	ProjectSection(SolutionItems) = preProject
+		Test-xSharePointAdministration.ps1 = Test-xSharePointAdministration.ps1
+		TestSolution.wsp = TestSolution.wsp
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
