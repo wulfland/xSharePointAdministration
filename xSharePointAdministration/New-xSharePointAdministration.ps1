@@ -15,7 +15,7 @@ $Force       = New-xDscResourceProperty -Name Force -Type Boolean -Attribute Wri
 
 New-xDscResource -Name ALIS_xFarmSolution -FriendlyName FarmSolution -ModuleName xSharePointAdministration -Property @($Name, $Ensure, $LiteralPath, $Version, $WebAppa, $Deployed, $Local, $Force) -Path $modulePath
 
-Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 -Destination "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1"
+Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 -Destination "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1" -Force
 
 # Create List Resource
 $Title       = New-xDscResourceProperty -Name Title -Type String -Attribute Key -Description "The title of the list."
@@ -25,7 +25,7 @@ $TemplateId  = New-xDscResourceProperty -Name TemplateId -Type String -Attribute
 
 New-xDscResource -Name ALIS_xList -FriendlyName List -ModuleName xSharePointAdministration -Property @($Title, $Ensure, $Url, $TemplateId) -Path $modulePath
 
-Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1" -force
+Copy-Item .\DSCResources\ALIS_xList.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xList\ALIS_xList.psm1" -force
 
 
 # Create Feature Resource

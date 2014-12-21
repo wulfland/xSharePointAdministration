@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSCResources", "DSCResource
 	ProjectSection(SolutionItems) = preProject
 		DSCResources\ALIS_xFarmSolution.psm1 = DSCResources\ALIS_xFarmSolution.psm1
 		DSCResources\ALIS_xFeature.psm1 = DSCResources\ALIS_xFeature.psm1
+		DSCResources\ALIS_xList.psm1 = DSCResources\ALIS_xList.psm1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5AC964C5-134A-423B-B8F8-9BFF12632A5F}"
@@ -21,7 +22,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5AC964C5-1
 		TestSolution.wsp = TestSolution.wsp
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSolution", "TestSolution\TestSolution.csproj", "{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D6E913-9D3C-4D04-B80F-7ACE9EEC1013}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

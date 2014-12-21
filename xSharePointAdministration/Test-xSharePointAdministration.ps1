@@ -13,7 +13,7 @@ Configuration MyTestConfig
         {
             Name = "TestSolution.wsp"
             LiteralPath = $LiteralPath
-            Version = "2.0"
+            Version = "2.2"
             Ensure = "Present"
             Local = $true
             Deployed = $true
@@ -26,13 +26,6 @@ Configuration MyTestConfig
             Url = "http://localhost"
             Ensure = "Present"
             DependsOn = "[FarmSolution]TestSolution.wsp"
-        }
-
-        List List1
-        {
-            Title = "List1"
-            TemplateId = "100"
-            Url = "http://localhost/Lists/List1"
         }
     }
 }
