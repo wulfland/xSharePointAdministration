@@ -3,6 +3,7 @@ Configuration MyTestConfig
     param([string]$LiteralPath)
 
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFarmSolution
+    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xSite
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xList
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFeature
     
@@ -18,6 +19,13 @@ Configuration MyTestConfig
             Local = $true
             Deployed = $true
             Force = $false
+        }
+
+        Site TestSite
+        {
+            Url = "http://localhost/sites/testsite"
+            Ensure = "Present"
+            OwnerAlias = "spfarm\mkaufmann"
         }
 
         Feature FarmFeature

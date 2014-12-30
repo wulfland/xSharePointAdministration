@@ -40,8 +40,28 @@ New-xDscResource -Name ALIS_xFeature -FriendlyName Feature -ModuleName xSharePoi
 
 Copy-Item .\DSCResources\ALIS_xFeature.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFeature\ALIS_xFeature.psm1" -force
 
+# Create Site Resource
+$Url                = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The URL of the site."
+$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the site exists. Set it to 'Absent' to ensure that the site is dealeted."
+$Owner              = New-xDscResourceProperty -Name OwnerAlias -Type String -Attribute Write
+$SiteType           = New-xDscResourceProperty -Name AdministrationSiteType -Type String -Attribute Write -ValidateSet @("None", "TenantAdministration")
+$CompatibilityLevel = New-xDscResourceProperty -Name CompatibilityLevel -Type Sint32 -Attribute Write
+$ContentDatabase    = New-xDscResourceProperty -Name ContentDatabase -Type String -Attribute Write 
+$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write
+$HostHeader         = New-xDscResourceProperty -Name HostHeaderWebApplication -Type String -Attribute Write
+$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write
+$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write
+$QuotaTemplate      = New-xDscResourceProperty -Name QuotaTemplate -Type String -Attribute Write
+$SiteSubscription   = New-xDscResourceProperty -Name SiteSubscription -Type String -Attribute Write
+$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write
+
+New-xDscResource -Name ALIS_xSite -FriendlyName Site -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Owner, $SiteType, $CompatibilityLevel, $ContentDatabase, $Description, $HostHeader, $Language, $Name, $QuotaTemplate, $SiteSubscription, $Template) -Path $modulePath
+
+Copy-Item .\DSCResources\ALIS_xSite.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xSite\ALIS_xSite.psm1"
+
 Get-DscResource -Name FarmSolution
 Get-DscResource -Name List 
 Get-DscResource -Name Feature
+Get-DscResource -Name Site
 
 copy-item .\xSharePointAdministration.psd1 "$modulePath\xSharePointAdministration\xSharePointAdministration.psd1"

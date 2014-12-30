@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DSCResources", "DSCResource
 		DSCResources\ALIS_xFarmSolution.psm1 = DSCResources\ALIS_xFarmSolution.psm1
 		DSCResources\ALIS_xFeature.psm1 = DSCResources\ALIS_xFeature.psm1
 		DSCResources\ALIS_xList.psm1 = DSCResources\ALIS_xList.psm1
+		DSCResources\ALIS_xSite.psm1 = DSCResources\ALIS_xSite.psm1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5AC964C5-134A-423B-B8F8-9BFF12632A5F}"
