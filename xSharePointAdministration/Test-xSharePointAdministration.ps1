@@ -4,6 +4,7 @@ Configuration MyTestConfig
 
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFarmSolution
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xSite
+    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xWeb
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xList
     Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFeature
     
@@ -29,6 +30,17 @@ Configuration MyTestConfig
             Name = "Test Site"
             Description = "A site for testing dsc resources..."
             Template = "COMMUNITY#0"
+        }
+
+        Web SubWeb
+        {
+            Url = "http://localhost/sites/testsite/subsite"
+            Ensure = "Present"
+            Name = "Susite"
+            Description = "A demo subsite with some parameters..."
+            Template = "STS#0"
+            DependsOn = "[Site]TestSite"
+            UseParentTopNav = $true
         }
 
         Feature FarmFeature

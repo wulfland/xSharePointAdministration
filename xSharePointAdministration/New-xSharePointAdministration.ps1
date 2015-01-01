@@ -59,9 +59,26 @@ New-xDscResource -Name ALIS_xSite -FriendlyName Site -ModuleName xSharePointAdmi
 
 Copy-Item .\DSCResources\ALIS_xSite.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xSite\ALIS_xSite.psm1"
 
+# Create Web Resource
+$Url                = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The URL of the web site."
+$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the web site exists. Set it to 'Absent' to ensure that the web site is dealeted."
+$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write
+$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write
+$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write
+$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write
+$UniquePermissions  = New-xDscResourceProperty -Name UniquePermissions -Type Boolean -Attribute Write
+$UseParentTopNav    = New-xDscResourceProperty -Name UseParentTopNav -Type Boolean -Attribute Write
+$AddToQuickLaunch   = New-xDscResourceProperty -Name AddToQuickLaunch -Type Boolean -Attribute Write
+$AddToTopNav        = New-xDscResourceProperty -Name AddToTopNav -Type Boolean -Attribute Write
+
+New-xDscResource -Name ALIS_xWeb -FriendlyName Web -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Description, $Name, $Language, $Template, $UniquePermissions, $UseParentTopNav, $AddToQuickLaunch, $AddToTopNav) -Path $modulePath
+
+Copy-Item .\DSCResources\ALIS_xWeb.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xWeb\ALIS_xWeb.psm1"
+
 Get-DscResource -Name FarmSolution
 Get-DscResource -Name List 
 Get-DscResource -Name Feature
 Get-DscResource -Name Site
+Get-DscResource -Name Web
 
 copy-item .\xSharePointAdministration.psd1 "$modulePath\xSharePointAdministration\xSharePointAdministration.psd1"
