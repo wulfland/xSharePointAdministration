@@ -26,6 +26,9 @@ Configuration MyTestConfig
             Url = "http://localhost/sites/testsite"
             Ensure = "Present"
             OwnerAlias = "spfarm\mkaufmann"
+            Name = "Test Site"
+            Description = "A site for testing dsc resources..."
+            Template = "COMMUNITY#0"
         }
 
         Feature FarmFeature
