@@ -18,12 +18,15 @@ New-xDscResource -Name ALIS_xFarmSolution -FriendlyName FarmSolution -ModuleName
 Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 -Destination "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1" -Force
 
 # Create List Resource
-$Title       = New-xDscResourceProperty -Name Title -Type String -Attribute Key -Description "The title of the list."
-$Ensure      = New-xDscResourceProperty -Name Ensure -Type String -Attribute Write -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the solution is deployed. Set it to 'Absent' to ensure that the solution is retracted and removed from the farm."
-$Url         = New-xDscResourceProperty -Name Url -Type String -Attribute Required -Description "The absolute url of the list (i.e. http://localhost/web/lists/Lis1)."
+$Url         = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The absolute url of the list (i.e. http://localhost/web/lists/List1)."
+$Ensure      = New-xDscResourceProperty -Name Ensure -Type String -Attribute Write -ValidateSet @("Present", "Absent")
+$Title       = New-xDscResourceProperty -Name Title -Type String -Attribute Write -Description "The title of the list."
+$Description = New-xDscResourceProperty -Name Description -Type String -Attribute Write
 $TemplateId  = New-xDscResourceProperty -Name TemplateId -Type String -Attribute Write
+$FeatureId   = New-xDscResourceProperty -Name FeatureId -Type String -Attribute Write
+$DocTemplate = New-xDscResourceProperty -Name DocTemplateType -Type String -Attribute Write
 
-New-xDscResource -Name ALIS_xList -FriendlyName List -ModuleName xSharePointAdministration -Property @($Title, $Ensure, $Url, $TemplateId) -Path $modulePath
+New-xDscResource -Name ALIS_xList -FriendlyName List -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Title, $Description, $TemplateId, $FeatureId, $DocTemplate) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xList.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xList\ALIS_xList.psm1" -force
 

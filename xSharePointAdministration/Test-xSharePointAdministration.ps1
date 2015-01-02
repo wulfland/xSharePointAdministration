@@ -11,17 +11,6 @@ Configuration MyTestConfig
 
     Node localhost
     {
-        FarmSolution TestSolution.wsp
-        {
-            Name = "TestSolution.wsp"
-            LiteralPath = $LiteralPath
-            Version = "2.4"
-            Ensure = "Present"
-            Local = $true
-            Deployed = $true
-            Force = $false
-        }
-
         Site TestSite
         {
             Url = "http://localhost/sites/testsite"
@@ -41,6 +30,22 @@ Configuration MyTestConfig
             Template = "STS#0"
             DependsOn = "[Site]TestSite"
             UseParentTopNav = $true
+        }
+
+        List GenericList
+        {
+            Url = "http://localhost/sites/testsite/subsite/Lists/GenericList"
+        }
+
+        FarmSolution TestSolution.wsp
+        {
+            Name = "TestSolution.wsp"
+            LiteralPath = $LiteralPath
+            Version = "2.4"
+            Ensure = "Present"
+            Local = $true
+            Deployed = $true
+            Force = $false
         }
 
         Feature FarmFeature
