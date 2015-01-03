@@ -35,6 +35,19 @@ Configuration MyTestConfig
         List GenericList
         {
             Url = "http://localhost/sites/testsite/subsite/Lists/GenericList"
+            Ensure = "Present"
+            Title = "Generic List"
+            Description = "A sample generic list"
+        }
+
+        List DocumentLibrary
+        {
+            Url = "http://localhost/sites/testsite/subsite/MyDocs"
+            Ensure = "Present"
+            Title = "My Documents"
+            FeatureId = "00BFEA71-E717-4E80-AA17-D0C71B360101"
+            TemplateId = "101"
+            DocTemplateType = "101"
         }
 
         FarmSolution TestSolution.wsp
