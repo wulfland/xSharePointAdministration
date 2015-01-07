@@ -13,75 +13,79 @@ $Deployed    = New-xDscResourceProperty -Name Deployed -Type Boolean -Attribute 
 $Local       = New-xDscResourceProperty -Name Local -Type Boolean -Attribute Write -Description "Set 'Local' to true if you only deploy the solution on a single server."
 $Force       = New-xDscResourceProperty -Name Force -Type Boolean -Attribute Write -Description "Set 'Force' to true to force the deployment in case of errors. Be careful with this switch!"
 
-New-xDscResource -Name ALIS_xFarmSolution -FriendlyName FarmSolution -ModuleName xSharePointAdministration -Property @($Name, $Ensure, $LiteralPath, $Version, $WebAppa, $Deployed, $Local, $Force) -Path $modulePath
+New-xDscResource -Name ALIS_xFarmSolution -FriendlyName xFarmSolution -ModuleName xSharePointAdministration -Property @($Name, $Ensure, $LiteralPath, $Version, $WebAppa, $Deployed, $Local, $Force) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 -Destination "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1" -Force
 
 # Create List Resource
-$Url         = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The absolute url of the list (i.e. http://localhost/web/lists/List1)."
-$Ensure      = New-xDscResourceProperty -Name Ensure -Type String -Attribute Write -ValidateSet @("Present", "Absent")
-$Title       = New-xDscResourceProperty -Name Title -Type String -Attribute Write -Description "The title of the list."
-$Description = New-xDscResourceProperty -Name Description -Type String -Attribute Write
-$TemplateId  = New-xDscResourceProperty -Name TemplateId -Type String -Attribute Write
-$FeatureId   = New-xDscResourceProperty -Name FeatureId -Type String -Attribute Write
-$DocTemplate = New-xDscResourceProperty -Name DocTemplateType -Type String -Attribute Write
+$Url         = New-xDscResourceProperty -Name Url             -Type String -Attribute Key   -Description "The absolute url of the list (i.e. http://localhost/web/lists/List1)."
+$Ensure      = New-xDscResourceProperty -Name Ensure          -Type String -Attribute Write -Description "Set this to 'Present' to ensure that the list is present. Set it to 'Absent' to ensure that the list is deleted. Default: 'Present'." -ValidateSet @("Present", "Absent")
+$Title       = New-xDscResourceProperty -Name Title           -Type String -Attribute Write -Description "The desired title of the list."
+$Description = New-xDscResourceProperty -Name Description     -Type String -Attribute Write -Description "The desired description of the list."
+$TemplateId  = New-xDscResourceProperty -Name TemplateId      -Type String -Attribute Write -Description "The template id of the list (default: 100)."
+$FeatureId   = New-xDscResourceProperty -Name FeatureId       -Type String -Attribute Write -Description "A string that contains the ID of the Feature that defines the list."
+$DocTemplate = New-xDscResourceProperty -Name DocTemplateType -Type String -Attribute Write -Description "A string that contains the integer ID for the document template type. Default: 101"
 
-New-xDscResource -Name ALIS_xList -FriendlyName List -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Title, $Description, $TemplateId, $FeatureId, $DocTemplate) -Path $modulePath
+New-xDscResource -Name ALIS_xList -FriendlyName xList -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Title, $Description, $TemplateId, $FeatureId, $DocTemplate) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xList.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xList\ALIS_xList.psm1" -force
 
 
 # Create Feature Resource
 $ID      = New-xDscResourceProperty -Name ID      -Type String  -Attribute Key      -Description "The ID of the feature."
-$Ensure  = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the feature is actived. Set it to 'Absent' to ensure that the feature is deactivated."
+$Ensure  = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -Description "Set this to 'Present' to ensure that the feature is actived. Set it to 'Absent' to ensure that the feature is deactivated. Default: 'Present'." -ValidateSet @("Present", "Absent")
 $Url     = New-xDscResourceProperty -Name Url     -Type String  -Attribute Required -Description "The url of the corresponding scope to activate the feature." 
 $Force   = New-xDscResourceProperty -Name Force   -Type Boolean -Attribute Write    -Description "Set 'Force' to true to force the activation of the feature."  
-$Version = New-xDscResourceProperty -Name Version -Type String  -Attribute Read
-$Scope  = New-xDscResourceProperty  -Name xScope -Type String  -Attribute Read -ValidateSet @("Web", "Site", "WebApplication", "Farm")
 
-New-xDscResource -Name ALIS_xFeature -FriendlyName Feature -ModuleName xSharePointAdministration -Property @($ID, $Ensure, $Url, $Force, $Version, $Scope) -Path $modulePath
+New-xDscResource -Name ALIS_xFeature -FriendlyName xFeature -ModuleName xSharePointAdministration -Property @($ID, $Ensure, $Url, $Force) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xFeature.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFeature\ALIS_xFeature.psm1" -force
 
 # Create Site Resource
 $Url                = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The URL of the site."
-$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the site exists. Set it to 'Absent' to ensure that the site is dealeted."
-$Owner              = New-xDscResourceProperty -Name OwnerAlias -Type String -Attribute Write
-$SiteType           = New-xDscResourceProperty -Name AdministrationSiteType -Type String -Attribute Write -ValidateSet @("None", "TenantAdministration")
-$CompatibilityLevel = New-xDscResourceProperty -Name CompatibilityLevel -Type Sint32 -Attribute Write
-$ContentDatabase    = New-xDscResourceProperty -Name ContentDatabase -Type String -Attribute Write 
-$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write
-$HostHeader         = New-xDscResourceProperty -Name HostHeaderWebApplication -Type String -Attribute Write
-$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write
-$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write
-$QuotaTemplate      = New-xDscResourceProperty -Name QuotaTemplate -Type String -Attribute Write
-$SiteSubscription   = New-xDscResourceProperty -Name SiteSubscription -Type String -Attribute Write
-$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write
+$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the site exists. Set it to 'Absent' to ensure that the site is deleted. Default is 'Present'."
+$Owner              = New-xDscResourceProperty -Name OwnerAlias -Type String -Attribute Write -Description "The logon name of the owner of the site collection. The default is the service user of the wmi service."
+$SiteType           = New-xDscResourceProperty -Name AdministrationSiteType -Type String -Attribute Write -ValidateSet @("None", "TenantAdministration") -Description "Specifies the site type."
+$CompatibilityLevel = New-xDscResourceProperty -Name CompatibilityLevel -Type Sint32 -Attribute Write -Description "Specifies the version of templates to use when creating a new SPSite object. This value sets the initial CompatibilityLevel value for the site collection. The values for this parameter can be either 14 for SharePoint Server 2010 experience sites or 15 for SharePoint Server 2013 experience sites . When this parameter is not specified, the CompatibilityLevel will default to the highest possible version for the web application depending on the CompatibilityRange setting."
+$ContentDatabase    = New-xDscResourceProperty -Name ContentDatabase -Type String -Attribute Write -Description "Specifies the name or GUID of the content database in which to create the new site. If no content database is specified, the site collection is selected automatically. The type must be a valid database name in the form, SiteContent1212, or a GUID in the form, 1234-5678-9807."
+$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write -Description "The desired description of the site."
+$HostHeader         = New-xDscResourceProperty -Name HostHeaderWebApplication -Type String -Attribute Write -Description "Specifies that if the URL provided is a host header, the HostHeaderWebApplication parameter must be the name, URL or GUID for the web application in which this site collection is created. If no value is specified, the value is left blank. The type must be a valid name in one of the following forms: WebApplication-1212, a URL (for example, http://server_name) or a GUID (for example, 1234-5678-9876-0987)"
+$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write -Description "Specifies the language ID for the new site collection. If no language is specified, the site collection is created with the same language that was specified when the product was installed. This must be a valid language identifier (LCID)."
+$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write -Description "The desired title for the site collection."
+$QuotaTemplate      = New-xDscResourceProperty -Name QuotaTemplate -Type String -Attribute Write -Description "Specifies the quota template for the new site. The template must exist already. If no template is specified, no quota is applied."
+$SiteSubscription   = New-xDscResourceProperty -Name SiteSubscription -Type String -Attribute Write -Description "Specifies the Site Group to get site collections."
+$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write -Description "Specifies the Web template for the root web of the new site collection. The template must be already installed. If no template is specified, no template is provisioned."
 
-New-xDscResource -Name ALIS_xSite -FriendlyName Site -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Owner, $SiteType, $CompatibilityLevel, $ContentDatabase, $Description, $HostHeader, $Language, $Name, $QuotaTemplate, $SiteSubscription, $Template) -Path $modulePath
+New-xDscResource -Name ALIS_xSite -FriendlyName xSite -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Owner, $SiteType, $CompatibilityLevel, $ContentDatabase, $Description, $HostHeader, $Language, $Name, $QuotaTemplate, $SiteSubscription, $Template) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xSite.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xSite\ALIS_xSite.psm1"
 
 # Create Web Resource
 $Url                = New-xDscResourceProperty -Name Url -Type String -Attribute Key -Description "The URL of the web site."
-$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the web site exists. Set it to 'Absent' to ensure that the web site is dealeted."
-$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write
-$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write
-$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write
-$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write
-$UniquePermissions  = New-xDscResourceProperty -Name UniquePermissions -Type Boolean -Attribute Write
-$UseParentTopNav    = New-xDscResourceProperty -Name UseParentTopNav -Type Boolean -Attribute Write
-$AddToQuickLaunch   = New-xDscResourceProperty -Name AddToQuickLaunch -Type Boolean -Attribute Write
-$AddToTopNav        = New-xDscResourceProperty -Name AddToTopNav -Type Boolean -Attribute Write
+$Ensure             = New-xDscResourceProperty -Name Ensure  -Type String  -Attribute Write    -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the web site exists. Set it to 'Absent' to ensure that the web site is deleted. Default is 'Present'."
+$Description        = New-xDscResourceProperty -Name Description -Type String -Attribute Write -Description "The desired description of the web site."
+$Language           = New-xDscResourceProperty -Name Language -Type Uint32 -Attribute Write -Description "The desired language (LCID) of the web site."
+$Name               = New-xDscResourceProperty -Name Name -Type String -Attribute Write -Description "The desired title of the web site."
+$Template           = New-xDscResourceProperty -Name Template -Type String -Attribute Write -Description "The template for the web site (i.e. STS#0 for Team Site)"
+$UniquePermissions  = New-xDscResourceProperty -Name UniquePermissions -Type Boolean -Attribute Write -Description "True to break permission inheritance; otherwise false."
+$UseParentTopNav    = New-xDscResourceProperty -Name UseParentTopNav -Type Boolean -Attribute Write -Description "True to use the parent top navigation; otherwise false."
+$AddToQuickLaunch   = New-xDscResourceProperty -Name AddToQuickLaunch -Type Boolean -Attribute Write -Description "True to add the web site to the quicklaunch; otherwise false."
+$AddToTopNav        = New-xDscResourceProperty -Name AddToTopNav -Type Boolean -Attribute Write -Description "True to add the web site to the top navigation; otherwise false."
 
-New-xDscResource -Name ALIS_xWeb -FriendlyName Web -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Description, $Name, $Language, $Template, $UniquePermissions, $UseParentTopNav, $AddToQuickLaunch, $AddToTopNav) -Path $modulePath
+New-xDscResource -Name ALIS_xWeb -FriendlyName xWeb -ModuleName xSharePointAdministration -Property @($Url, $Ensure, $Description, $Name, $Language, $Template, $UniquePermissions, $UseParentTopNav, $AddToQuickLaunch, $AddToTopNav) -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xWeb.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xWeb\ALIS_xWeb.psm1"
 
-Get-DscResource -Name FarmSolution
-Get-DscResource -Name List 
-Get-DscResource -Name Feature
-Get-DscResource -Name Site
-Get-DscResource -Name Web
+Get-DscResource -Name xFarmSolution
+Get-DscResource -Name xList 
+Get-DscResource -Name xFeature
+Get-DscResource -Name xSite
+Get-DscResource -Name xWeb
+
+Test-xDscResource -Name xFarmSolution -Verbose
+Test-xDscResource -Name xList -Verbose
+Test-xDscResource -Name xFeature -Verbose
+Test-xDscResource -Name xWeb -Verbose
+Test-xDscResource -Name xSite -Verbose
 
 copy-item .\xSharePointAdministration.psd1 "$modulePath\xSharePointAdministration\xSharePointAdministration.psd1"
