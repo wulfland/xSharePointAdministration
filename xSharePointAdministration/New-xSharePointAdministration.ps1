@@ -18,6 +18,7 @@ New-xDscResource -Name ALIS_xFarmSolution -FriendlyName xFarmSolution -ModuleNam
 Copy-Item .\DSCResources\ALIS_xFarmSolution.psm1 -Destination "$modulePath\xSharePointAdministration\DSCResources\ALIS_xFarmSolution\ALIS_xFarmSolution.psm1" -Force
 
 # Create List Resource
+# Note: the system account needs permissions to create or delete the list. Make sure to add a plicy to your web application.
 $Url         = New-xDscResourceProperty -Name Url             -Type String -Attribute Key   -Description "The absolute url of the list (i.e. http://localhost/web/lists/List1)."
 $Ensure      = New-xDscResourceProperty -Name Ensure          -Type String -Attribute Write -Description "Set this to 'Present' to ensure that the list is present. Set it to 'Absent' to ensure that the list is deleted. Default: 'Present'." -ValidateSet @("Present", "Absent")
 $Title       = New-xDscResourceProperty -Name Title           -Type String -Attribute Write -Description "The desired title of the list."
@@ -76,6 +77,30 @@ New-xDscResource -Name ALIS_xWeb -FriendlyName xWeb -ModuleName xSharePointAdmin
 
 Copy-Item .\DSCResources\ALIS_xWeb.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xWeb\ALIS_xWeb.psm1"
 
+# Create User Profile Property Resource
+# Note: make sure your system account has administrative priviledges on your user profile service!
+$Name               = New-xDscResourceProperty -Name Name           -Type String -Attribute Key -Description "The internal name of the profile proprty."
+$Ensure             = New-xDscResourceProperty -Name Ensure         -Type String -Attribute Write -ValidateSet @("Present", "Absent") -Description "Set this to 'Present' to ensure that the profile property exists. Set it to 'Absent' to ensure that it is deleted. Default is 'Present'."
+$ConnectionName     = New-xDscResourceProperty -Name ConnectionName -Type String -Attribute Write -Description "The name of the ad synch connection"
+$AttributeName      = New-xDscResourceProperty -Name AttributeName  -Type String -Attribute Write -Description "The name of the mapped attribute in active directory."
+$DisplayName        = New-xDscResourceProperty -Name DisplayName    -Type String -Attribute Write
+$PropertyType       = New-xDscResourceProperty -Name PropertyType   -Type String -Attribute Write -ValidateSet @("Binary", "Boolean", "Currency", "DateTime", "Double", "Integer", "LongBinary", "LongString", "Short", "Single", "String", "Variant")
+$Privacy            = New-xDscResourceProperty -Name Privacy        -Type String -Attribute Write -ValidateSet @("Public", "Contacts", "Organization", "Manager", "Private", "NotSet")
+$PrivacyPolicy      = New-xDscResourceProperty -Name PrivacyPolicy  -Type String -Attribute Write -ValidateSet @("mandatory", "optin", "optout", "disabled")
+$PropertyLength     = New-xDscResourceProperty -Name PropertyLength -Type Sint32 -Attribute Write
+$IsUserEditable     = New-xDscResourceProperty -Name IsUserEditable      -Type Boolean -Attribute Write
+$IsVisibleOnEditor  = New-xDscResourceProperty -Name IsVisibleOnEditor   -Type Boolean -Attribute Write
+$IsVisibleOnViewer  = New-xDscResourceProperty -Name IsVisibleOnViewer   -Type Boolean -Attribute Write
+$IsEventLog         = New-xDscResourceProperty -Name IsEventLog          -Type Boolean -Attribute Write
+$UserOverridePrivacy= New-xDscResourceProperty -Name UserOverridePrivacy -Type Boolean -Attribute Write
+$DisplayOrder       = New-xDscResourceProperty -Name DisplayOrder        -Type Sint32 -Attribute Write
+$Section            = New-xDscResourceProperty -Name Section             -Type String -Attribute Write
+
+$properties = @($Name, $Ensure, $ConnectionName, $AttributeName, $DisplayName, $PropertyType, $Privacy, $PrivacyPolicy, $PropertyLength, $IsUserEditable, $IsVisibleOnEditor, $IsVisibleOnViewer, $IsEventLog, $UserOverridePrivacy, $DisplayOrder, $Section)
+New-xDscResource -Name ALIS_xUserProfileProperty -FriendlyName xUserProfileProperty -ModuleName xSharePointAdministration -Property $properties  -Path $modulePath
+
+Copy-Item .\DSCResources\ALIS_xUserProfileProperty.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xUserProfileProperty\ALIS_xUserProfileProperty.psm1"
+
 Get-DscResource -Name xFarmSolution
 Get-DscResource -Name xList 
 Get-DscResource -Name xFeature
@@ -87,5 +112,6 @@ Test-xDscResource -Name xList -Verbose
 Test-xDscResource -Name xFeature -Verbose
 Test-xDscResource -Name xWeb -Verbose
 Test-xDscResource -Name xSite -Verbose
+Test-xDscResource -Name xUserProfileProperty -Verbose
 
 copy-item .\xSharePointAdministration.psd1 "$modulePath\xSharePointAdministration\xSharePointAdministration.psd1"
