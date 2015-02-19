@@ -95,23 +95,27 @@ $IsEventLog         = New-xDscResourceProperty -Name IsEventLog          -Type B
 $UserOverridePrivacy= New-xDscResourceProperty -Name UserOverridePrivacy -Type Boolean -Attribute Write
 $DisplayOrder       = New-xDscResourceProperty -Name DisplayOrder        -Type Sint32 -Attribute Write
 $Section            = New-xDscResourceProperty -Name Section             -Type String -Attribute Write
+$IsMultivalued      = New-xDscResourceProperty -Name IsMultivalued       -Type Boolean -Attribute Write
+$Separator          = New-xDscResourceProperty -Name Separator           -Type String -Attribute Write -ValidateSet @("Comma", "Semicolon", "Newline", "Unknown")
+$MaximumShown       = New-xDscResourceProperty -Name MaximumShown        -Type Sint32 -Attribute Write
 
-$properties = @($Name, $Ensure, $ConnectionName, $AttributeName, $DisplayName, $PropertyType, $Privacy, $PrivacyPolicy, $PropertyLength, $IsUserEditable, $IsVisibleOnEditor, $IsVisibleOnViewer, $IsEventLog, $UserOverridePrivacy, $DisplayOrder, $Section)
+
+$properties = @($Name, $Ensure, $ConnectionName, $AttributeName, $DisplayName, $PropertyType, $Privacy, $PrivacyPolicy, $PropertyLength, $IsUserEditable, $IsVisibleOnEditor, $IsVisibleOnViewer, $IsEventLog, $UserOverridePrivacy, $DisplayOrder, $Section, $IsMultivalued, $Separator, $MaximumShown)
 New-xDscResource -Name ALIS_xUserProfileProperty -FriendlyName xUserProfileProperty -ModuleName xSharePointAdministration -Property $properties  -Path $modulePath
 
 Copy-Item .\DSCResources\ALIS_xUserProfileProperty.psm1 "$modulePath\xSharePointAdministration\DSCResources\ALIS_xUserProfileProperty\ALIS_xUserProfileProperty.psm1"
 
-Get-DscResource -Name xFarmSolution
-Get-DscResource -Name xList 
-Get-DscResource -Name xFeature
-Get-DscResource -Name xSite
-Get-DscResource -Name xWeb
+#Get-DscResource -Name xFarmSolution
+#Get-DscResource -Name xList 
+#Get-DscResource -Name xFeature
+#Get-DscResource -Name xSite
+#Get-DscResource -Name xWeb
 
-Test-xDscResource -Name xFarmSolution -Verbose
-Test-xDscResource -Name xList -Verbose
-Test-xDscResource -Name xFeature -Verbose
-Test-xDscResource -Name xWeb -Verbose
-Test-xDscResource -Name xSite -Verbose
-Test-xDscResource -Name xUserProfileProperty -Verbose
+#Test-xDscResource -Name xFarmSolution -Verbose
+#Test-xDscResource -Name xList -Verbose
+#Test-xDscResource -Name xFeature -Verbose
+#Test-xDscResource -Name xWeb -Verbose
+#Test-xDscResource -Name xSite -Verbose
+#Test-xDscResource -Name xUserProfileProperty -Verbose
 
 copy-item .\xSharePointAdministration.psd1 "$modulePath\xSharePointAdministration\xSharePointAdministration.psd1"
