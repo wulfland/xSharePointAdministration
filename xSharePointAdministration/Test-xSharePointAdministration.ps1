@@ -2,16 +2,11 @@ Configuration MyTestConfig
 {
     param([string]$LiteralPath)
 
-    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFarmSolution
-    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xSite
-    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xWeb
-    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xList
-    Import-DscResource -ModuleName xSharePointAdministration -Name ALIS_xFeature
+    Import-DscResource -ModuleName xSharePointAdministration
     
-
     Node localhost
     {
-        Site TestSite
+        xSite TestSite
         {
             Url = "http://localhost/sites/testsite"
             Ensure = "Present"
@@ -21,18 +16,17 @@ Configuration MyTestConfig
             Template = "COMMUNITY#0"
         }
 
-        Web SubWeb
+        xWeb SubWeb
         {
             Url = "http://localhost/sites/testsite/subsite"
             Ensure = "Present"
             Name = "Susite"
             Description = "A demo subsite with some parameters..."
-            Template = "STS#0"
+            Template = "COMMUNITY#0"
             DependsOn = "[Site]TestSite"
-            UseParentTopNav = $true
         }
 
-        List GenericList
+        xList GenericList
         {
             Url = "http://localhost/sites/testsite/subsite/Lists/GenericList"
             Ensure = "Present"
@@ -40,7 +34,7 @@ Configuration MyTestConfig
             Description = "A sample generic list"
         }
 
-        List DocumentLibrary
+        xList DocumentLibrary
         {
             Url = "http://localhost/sites/testsite/subsite/MyDocs"
             Ensure = "Present"
@@ -50,7 +44,7 @@ Configuration MyTestConfig
             DocTemplateType = "101"
         }
 
-        FarmSolution TestSolution.wsp
+        xFarmSolution TestSolution.wsp
         {
             Name = "TestSolution.wsp"
             LiteralPath = $LiteralPath
@@ -61,7 +55,7 @@ Configuration MyTestConfig
             Force = $false
         }
 
-        Feature FarmFeature
+        xFeature FarmFeature
         {
             ID = "b80acc14-17ab-4f62-a7ac-41d4a62b1323"
             Url = "http://localhost"
@@ -69,7 +63,7 @@ Configuration MyTestConfig
             DependsOn = "[FarmSolution]TestSolution.wsp"
         }
 
-        Feature WebAppFeature
+        xFeature WebAppFeature
         {
             ID = "c15f7007-d0ff-403c-88cb-697f811e8572"
             Url = "http://localhost"
@@ -77,7 +71,7 @@ Configuration MyTestConfig
             DependsOn = "[FarmSolution]TestSolution.wsp"
         }
 
-        Feature SiteFeature
+        xFeature SiteFeature
         {
             ID = "06780b45-1731-4bf9-8686-d734703e0d0c"
             Url = "http://localhost"
@@ -85,7 +79,7 @@ Configuration MyTestConfig
             DependsOn = "[FarmSolution]TestSolution.wsp"
         }
 
-        Feature WebFeature
+        xFeature WebFeature
         {
             ID = "8fed3a9c-e338-475f-bab0-cded858378b4"
             Url = "http://localhost"
